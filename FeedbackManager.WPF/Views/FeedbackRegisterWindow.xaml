@@ -1,0 +1,132 @@
+﻿<Window x:Class="FeedbackManager.WPF.Views.FeedbackRegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FeedbackManager.WPF.Views"
+        mc:Ignorable="d"
+        Title="Feedback Register" Height="720" MinHeight="720" Width="980" MinWidth="980">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="650"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Menu Width="Auto" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="_Feedback">
+                <MenuItem Header="_New"/>
+                <MenuItem Header="_Save"/>
+                <MenuItem Header="_Remove"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <TextBlock Padding="40 6" Foreground="OrangeRed" Text="{Binding Path=AlertMessage}" TextWrapping="Wrap"/>
+            <GroupBox Margin="3 6 3 0" Header="Feedback Status" Foreground="DarkGray">
+                <StackPanel Margin="0 3">
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <Label Padding="0" Margin="6" Content="Date of feedback received"/>
+                        <DatePicker Margin="4" Width="250" SelectedDate="{Binding Path=SelectedFeedback.DateReceived, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Padding="0" Margin="6" Content="Channel"/>
+                        <ComboBox Margin="4" SelectedItem="{Binding Path=SelectedFeedback.Channel, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Channels}"/>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <Label Padding="0" Margin="6" Content="Progress"/>
+                        <ComboBox Width="200" Margin="4" SelectedItem="{Binding Path=SelectedFeedback.Progress, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Progresses}"/>
+                        <Label Padding="0" Margin="6" Content="Feedback nature"/>
+                        <ComboBox Margin="4" SelectedItem="{Binding Path=SelectedFeedback.FeedbackNature, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding FeedbackNatures}"/>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <Label Padding="0" Margin="6" Content="Date of acknowledgement"/>
+                        <DatePicker Margin="4" Width="250" SelectedDate="{Binding Path=SelectedFeedback.DateAcknowledged, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ComboBox Margin="4" SelectedItem="{Binding Path=SelectedFeedback.ResponsibleDepartment, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding ResponsibleDepartments}"/>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Margin="3 12 3 0" Header="Feedback Contributor Details" Foreground="DarkGray">
+                <StackPanel Margin="0 3">
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <Label Padding="0" Margin="6" Content="Contributor name"/>
+                        <TextBox Margin="4" Width="280" Text="{Binding Path=SelectedFeedback.ContributorName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Padding="0" Margin="6" Content="Student Id"/>
+                        <TextBox Margin="4" Text="{Binding Path=SelectedFeedback.StudentId, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <Label Padding="0" Margin="6" Content="Status"/>
+                        <ComboBox Margin="4" Width="120" SelectedItem="{Binding Path=SelectedFeedback.ContributorStatus, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding ContributorStatuses}"/>
+                        <ComboBox Margin="4" SelectedItem="{Binding Path=SelectedFeedback.CourseOrDepartment, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding CoursesOrDepartments}"/>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <Label Padding="0" Margin="6" Content="Phone"/>
+                        <TextBox Margin="4" Width="100" Text="{Binding Path=SelectedFeedback.Phone, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Padding="0" Margin="6" Content="Email"/>
+                        <TextBox Margin="4" Width="170" Text="{Binding Path=SelectedFeedback.Email, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Margin="4" Content="Send acknowledgement email"/>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Margin="3 12 3 0" Header="Feedback Details" Foreground="DarkGray">
+                <StackPanel Margin="0 3">
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <StackPanel>
+                            <StackPanel Margin="6 6 6 0" Orientation="Horizontal">
+                                <Label Padding="0" Content="Feedback summary"/>
+                                <TextBox Margin="10 0" FontWeight="Bold" Foreground="DarkSlateGray" Text="{Binding Path=SelectedFeedback.Title, UpdateSourceTrigger=PropertyChanged}" Width="458"/>
+                            </StackPanel>
+                            <TextBox Margin="6 3 6 6" Height="60" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                     Text="{Binding Path=SelectedFeedback.FeedbackSummary, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <Label Padding="0" Margin="6" Content="Action by"/>
+                        <TextBox Margin="4" Width="200" Text="{Binding Path=SelectedFeedback.ActionBy, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Padding="0" Margin="6" Content="Approved by"/>
+                        <TextBox Margin="4" Text="{Binding Path=SelectedFeedback.ApprovedBy, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <StackPanel>
+                            <Label Padding="0" Margin="6 6 6 0" Content="Rectification summary"/>
+                            <TextBox Margin="6 0 6 6" Height="60"  TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                     Text="{Binding Path=SelectedFeedback.RectificationSummary, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Padding="0" Margin="6" Content="Date resolved"/>
+                        <DatePicker Margin="4" Width="250" SelectedDate="{Binding Path=SelectedFeedback.DateResolved, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Padding="0" Margin="6" Content="Category"/>
+                        <ComboBox Margin="4" SelectedItem="{Binding Path=SelectedFeedback.Category, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Categories}"/>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <StackPanel>
+                            <Label Padding="0" Margin="6 6 6 0" Content="Remarks"/>
+                            <TextBox Margin="6 0 6 6" Height="30" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                     Text="{Binding Path=SelectedFeedback.Remarks, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+        <DockPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock DockPanel.Dock="Top" Padding="0" Margin="6" Text="{Binding NumberOfFeedbackCases, StringFormat='The list of {0} feedback cases:'}"/>
+            <ListView Margin="6" HorizontalAlignment="Stretch" ItemsSource="{Binding Feedbacks}" SelectedItem="{Binding SelectedFeedback}"                      
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.CanContentScroll="True"
+                      SelectionMode="Single">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Date" Width="100" DisplayMemberBinding="{Binding DateReceived, StringFormat='{}{0:dd/M/yyyy}'}"/>
+                        <GridViewColumn Header="Contributor" Width="120" DisplayMemberBinding="{Binding ContributorName}"/>
+                        <GridViewColumn Header="Progress" Width="100" DisplayMemberBinding="{Binding Progress}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+        <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Background="LightGray">
+            <TextBlock Margin="3 6" Text="{Binding UserName, StringFormat='Current user: {0}'}" />
+        </StackPanel>
+    </Grid>
+</Window>

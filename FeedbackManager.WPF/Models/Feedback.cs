@@ -21,7 +21,7 @@ namespace FeedbackManager.WPF.Models
         public string Title { get; set; }
         public string FeedbackSummary { get; set; }
         public DateTime? DateAcknowledged { get; set; }
-        public Department ResponsibleDepartment { get; set; }
+        public string ResponsibleDepartment { get; set; }
         public string RectificationSummary { get; set; }
         public DateTime? DateResolved { get; set; }
         public string Progress { get; set; }
@@ -29,6 +29,7 @@ namespace FeedbackManager.WPF.Models
         public string Remarks { get; set; }
         public string ActionBy { get; set; }
         public string ApprovedBy { get; set; }
+        public string IsExcludedFromAnalysis { get; set; }
         public string IsRemoved { get; set; }
     }
 }
