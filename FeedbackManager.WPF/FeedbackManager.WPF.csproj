@@ -69,6 +69,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ContributorStatus.cs" />
+    <Compile Include="Models\FeedbackCategory.cs" />
+    <Compile Include="Models\FeedbackChannel.cs" />
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Feedback.cs" />
+    <Compile Include="Models\FeedbackNature.cs" />
+    <Compile Include="Models\Progress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
