@@ -97,7 +97,7 @@
                         <Label Padding="0" Margin="6" Content="Date resolved"/>
                         <DatePicker Margin="4" Width="250" SelectedDate="{Binding Path=SelectedFeedback.DateResolved, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Padding="0" Margin="6" Content="Category"/>
-                        <ComboBox Margin="4" SelectedItem="{Binding Path=SelectedFeedback.Category, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Categories}"/>
+                        <ComboBox Margin="4" SelectedItem="{Binding Path=SelectedFeedback.Category, UpdateSourceTrigger=PropertyChanged}"  ItemsSource="{Binding Categories}"/>
                     </DockPanel>
                     <DockPanel HorizontalAlignment="Stretch">
                         <StackPanel>
