@@ -44,7 +44,7 @@ namespace FeedbackManager.WPF.ViewModels
             set { SetValue(ref _feedbackNature, value); }
         }
 
-        private DateTime? _dateAcknowledged;
+        private DateTime? _dateAcknowledged = DateTime.MinValue;
         public DateTime? DateAcknowledged
         {
             get { return _dateAcknowledged; }
@@ -58,14 +58,14 @@ namespace FeedbackManager.WPF.ViewModels
             set { SetValue(ref _responsibleDepartment, value); }
         }
 
-        private string _contributorName;
+        private string _contributorName = string.Empty;
         public string ContributorName
         {
             get { return _contributorName; }
             set { SetValue(ref _contributorName, value); }
         }
 
-        private string _studentId;
+        private string _studentId = string.Empty;
         public string StudentId
         {
             get { return _studentId; }
@@ -79,80 +79,84 @@ namespace FeedbackManager.WPF.ViewModels
             set { SetValue(ref _contributorStatus, value); }
         }
 
-        private string _courseOrDepartment;
-        public string CourseOrDepartment
+        private string _affiliation;
+        public string Affiliation
         {
-            get { return _courseOrDepartment; }
-            set
-            {
-                SetValue(ref _courseOrDepartment, value);
-            }
+            get { return _affiliation; }
+            set { SetValue(ref _affiliation, value); }
         }
 
-        private string _phone;
+        private string _phone = string.Empty;
         public string Phone
         {
             get { return _phone; }
             set { SetValue(ref _phone, value); }
         }
 
-        private string _email;
+        private string _email = string.Empty;
         public string Email
         {
             get { return _email; }
             set { SetValue(ref _email, value); }
         }
 
-        private string _title;
+        private string _title = string.Empty;
         public string Title
         {
             get { return _title; }
             set { SetValue(ref _title, value); }
         }
 
-        private string _feedbackSummary;
+        private string _feedbackSummary = string.Empty;
         public string FeedbackSummary
         {
             get { return _feedbackSummary; }
             set { SetValue(ref _feedbackSummary, value); }
         }
 
-        private string _actionBy;
+        private string _actionBy = string.Empty;
         public string ActionBy
         {
             get { return _actionBy; }
             set { SetValue(ref _actionBy, value); }
         }
 
-        private string _approvedBy;
+        private string _approvedBy = string.Empty;
         public string ApprovedBy
         {
             get { return _approvedBy; }
             set { SetValue(ref _approvedBy, value); }
         }
 
-        private string _rectificationSummary;
+        private string _rectificationSummary = string.Empty;
         public string RectificationSummary
         {
             get { return _rectificationSummary; }
             set { SetValue(ref _rectificationSummary, value); }
         }
 
-        private DateTime? _dateResolved;
+        private DateTime? _dateResolved = DateTime.MinValue;
         public DateTime? DateResolved
         {
             get { return _dateResolved; }
             set { SetValue(ref _dateResolved, value); }
         }
 
-        private string _category;
+        private string _category = string.Empty;
         public string Category
         {
             get { return _category; }
             set { SetValue(ref _category, value); }
         }
 
-        private string _remarks;
+        private bool _isExcludedFromAnalysis = false;
+        public bool IsExcludedFromAnalysis
+        {
+            get { return _isExcludedFromAnalysis; }
+            set { SetValue(ref _isExcludedFromAnalysis, value); }
+        }
+
+        private string _remarks = string.Empty;
         public string Remarks
         {
             get { return _remarks; }

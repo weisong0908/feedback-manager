@@ -28,7 +28,26 @@ namespace FeedbackManager.WPF.Views
 
             var feedbackService = (Application.Current as App).FeedbackService;
             ViewModel = new FeedbackRegisterWindowViewModel(feedbackService);
-            ViewModel.OnStartUp();
+        }
+
+        private void OnResponsibleDepartmentChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.UpdateCategories();
+        }
+
+        private void AddNewFeedback(object sender, RoutedEventArgs e)
+        {
+            ViewModel.AddNewFeedback();
+        }
+
+        private void SaveFeedback(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SaveFeedback();
+        }
+
+        private void RemoveFeedback(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RemoveFeedback();
         }
     }
 }

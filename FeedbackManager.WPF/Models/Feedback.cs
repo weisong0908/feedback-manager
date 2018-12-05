@@ -13,7 +13,7 @@ namespace FeedbackManager.WPF.Models
         public string ContributorName { get; set; }
         public string StudentId { get; set; }
         public string ContributorStatus { get; set; }
-        public string CourseOrDepartment { get; set; }
+        public string Affiliation { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public string FeedbackNature { get; set; }
