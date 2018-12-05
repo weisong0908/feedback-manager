@@ -16,7 +16,8 @@ namespace FeedbackManager.WPF
     /// </summary>
     public partial class App : Application
     {
-        public string ConnectionString { get; } = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\\csing.navitas.local\shared\Documents\Quality Assurance\#QA & COMPLIANCE Dept Functions#\Feedback Management\Feedback Register\Feedback Database.mdb;Persist Security Info=False;";
+        //public string ConnectionString { get; } = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\\csing.navitas.local\shared\Documents\Quality Assurance\#QA & COMPLIANCE Dept Functions#\Feedback Management\Feedback Register\Feedback Database.mdb;Persist Security Info=False;";
+        public string ConnectionString { get; } = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Users\weisong.teng\Desktop\Feedback Database.mdb;Persist Security Info=False;";
 
         public IFeedbackService FeedbackService;
 

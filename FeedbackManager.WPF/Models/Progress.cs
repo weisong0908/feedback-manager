@@ -8,6 +8,7 @@ namespace FeedbackManager.WPF.Models
 {
     public static class Progress
     {
+        public const string Null = "";
         public const string Received = "Received";
         public const string Acknowledged = "Acknowledged";
         public const string ActionApproved = "Action approved";

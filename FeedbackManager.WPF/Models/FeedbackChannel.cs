@@ -8,6 +8,7 @@ namespace FeedbackManager.WPF.Models
 {
     public static class FeedbackChannel
     {
+        public const string Null = "";
         public const string FeedbackForm = "Feedback form";
         public const string Email = "Email";
         public const string PhoneCall = "Phone call";

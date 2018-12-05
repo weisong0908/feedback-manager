@@ -8,6 +8,7 @@ namespace FeedbackManager.WPF.Models
 {
     public static class ContributorStatus
     {
+        public const string Null = "";
         public const string Student = "Student";
         public const string Staff = "Staff";
         public const string OtherStakeholder = "Other stakeholder";

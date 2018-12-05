@@ -78,6 +78,7 @@ namespace FeedbackManager.WPF.ViewModels
 
             var categories = feedbackService.GetAllDepartments().Where(d => d.Name == _selectedFeedback.ResponsibleDepartment).SingleOrDefault().Categories;
             Categories = new ObservableCollection<string>(categories);
+            Categories.Add("");
         }
 
         public void AddNewFeedback()

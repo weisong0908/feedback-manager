@@ -8,6 +8,7 @@ namespace FeedbackManager.WPF.Models
 {
     public static class FeedbackCategory
     {
+        public const string Null = "";
         public const string Proficiency = "Proficiency";
         public const string ServiceRendered = "Service rendered";
         public const string ResponseTime = "Response time";

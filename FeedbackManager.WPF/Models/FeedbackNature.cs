@@ -8,6 +8,7 @@ namespace FeedbackManager.WPF.Models
 {
     public static class FeedbackNature
     {
+        public const string Null = "";
         public const string Complaint = "Complaint";
         public const string Compliment = "Compliment";
         public const string Information = "For information";
