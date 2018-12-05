@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FeedbackManager.WPF.Views"
         mc:Ignorable="d"
-        Title="Feedback Register" Height="760" MinHeight="760" Width="980" MinWidth="980">
+        Title="Feedback Manager" Height="760" Width="980" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="650"/>
@@ -64,7 +64,7 @@
                         <TextBox Margin="4" Width="100" Text="{Binding Path=SelectedFeedback.Phone, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Padding="0" Margin="6" Content="Email"/>
                         <TextBox Margin="4" Width="170" Text="{Binding Path=SelectedFeedback.Email, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Margin="4" Content="Send acknowledgement email"/>
+                        <Button Margin="4" Content="Send acknowledgement email" Click="SendAcknowledgementEmail"/>
                     </DockPanel>
                 </StackPanel>
             </GroupBox>

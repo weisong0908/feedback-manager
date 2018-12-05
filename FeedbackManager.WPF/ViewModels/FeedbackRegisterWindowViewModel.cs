@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FeedbackManager.WPF.Helpers;
 using FeedbackManager.WPF.Models;
 using FeedbackManager.WPF.Services;
 using System;
@@ -116,6 +117,14 @@ namespace FeedbackManager.WPF.ViewModels
 
             feedbackService.RemoveFeedback(mapper.Map<Feedback>(_selectedFeedback));
             Feedbacks.Remove(_selectedFeedback);
+        }
+
+        public void SendAcknowledgementEmail()
+        {
+            if (SelectedFeedback == null)
+                return;
+
+            EmailHelper.Send(_selectedFeedback.Email, _selectedFeedback.Title);
         }
     }
 }

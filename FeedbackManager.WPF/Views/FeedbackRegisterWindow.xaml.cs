@@ -49,5 +49,10 @@ namespace FeedbackManager.WPF.Views
         {
             ViewModel.RemoveFeedback();
         }
+
+        private void SendAcknowledgementEmail(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SendAcknowledgementEmail();
+        }
     }
 }
