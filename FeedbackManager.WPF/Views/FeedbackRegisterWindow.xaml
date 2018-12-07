@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FeedbackManager.WPF.Views"
         mc:Ignorable="d"
-        Title="Feedback Manager" Height="760" Width="980" ResizeMode="NoResize">
+        Title="Feedback Manager" Height="760" Width="1040" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="650"/>
@@ -23,8 +23,7 @@
                 <MenuItem Header="_Remove" Click="RemoveFeedback"/>
             </MenuItem>
         </Menu>
-        <StackPanel Grid.Column="0" Grid.Row="1">
-            <TextBlock Padding="40 6" Foreground="OrangeRed" Text="{Binding Path=AlertMessage}" TextWrapping="Wrap"/>
+        <StackPanel Grid.Column="0" Grid.Row="1">            
             <GroupBox Margin="3 6 3 0" Header="Feedback Status" Foreground="DarkGray">
                 <StackPanel Margin="0 3">
                     <DockPanel HorizontalAlignment="Stretch">
@@ -111,8 +110,9 @@
             </GroupBox>
         </StackPanel>
         <DockPanel Grid.Column="1" Grid.Row="1">
-            <TextBlock DockPanel.Dock="Top" Padding="0" Margin="6" Text="{Binding NumberOfFeedbackCases, StringFormat='The list of {0} feedback cases:'}"/>
-            <ListView Margin="6" HorizontalAlignment="Stretch" ItemsSource="{Binding Feedbacks}" SelectedItem="{Binding SelectedFeedback}"                      
+            <TextBlock DockPanel.Dock="Top" Padding="0" Margin="6 3" Text="{Binding Feedbacks.Count, StringFormat='Feedback cases found: {0}'}"/>
+            <TextBlock DockPanel.Dock="Top" Padding="0" Margin="6 3" Text="{Binding UnclosedFeedbacksCount, StringFormat='Unclosed: {0}'}"/>
+            <ListView Margin="6 3" HorizontalAlignment="Stretch" ItemsSource="{Binding Feedbacks}" SelectedItem="{Binding SelectedFeedback}"                      
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       ScrollViewer.CanContentScroll="True"

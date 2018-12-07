@@ -36,6 +36,7 @@ namespace FeedbackManager.WPF.ViewModels
             get { return _feedbacks; }
             set { SetValue(ref _feedbacks, value); }
         }
+        public int UnclosedFeedbacksCount { get { return _feedbacks.Where(f => f.Progress != Progress.Closed).Count(); } }
 
         private FeedbackViewModel _selectedFeedback;
         public FeedbackViewModel SelectedFeedback
@@ -59,8 +60,9 @@ namespace FeedbackManager.WPF.ViewModels
 
         private async void OnStartUp()
         {
-            var departments = feedbackService.GetAllDepartments();
-            ResponsibleDepartments = departments.Select(d => d.Name);
+            var departments = feedbackService.GetAllDepartments().Select(d => d.Name).ToList();
+            departments.Add("");
+            ResponsibleDepartments = departments;
             Affiliations = feedbackService.GetAffiliations().Concat(ResponsibleDepartments);
             var feedbacks = mapper.Map<List<FeedbackViewModel>>((await feedbackService.GetAllFeedbacks()).OrderByDescending(f => f.DateReceived).ToList());
             Feedbacks = new ObservableCollection<FeedbackViewModel>(feedbacks);
@@ -77,8 +79,8 @@ namespace FeedbackManager.WPF.ViewModels
                 return;
 
             var categories = feedbackService.GetAllDepartments().Where(d => d.Name == _selectedFeedback.ResponsibleDepartment).SingleOrDefault().Categories;
+            categories.Add("");
             Categories = new ObservableCollection<string>(categories);
-            Categories.Add("");
         }
 
         public void AddNewFeedback()
