@@ -14,6 +14,7 @@ namespace FeedbackManager.WPF.ViewModels
     public class FeedbackRegisterWindowViewModel : BaseViewModel
     {
         private readonly IFeedbackService feedbackService;
+        private readonly IWindowService windowService;
         private readonly IMapper mapper;
 
         public IEnumerable<string> FeedbackChannels { get; set; }
@@ -45,9 +46,10 @@ namespace FeedbackManager.WPF.ViewModels
             set { SetValue(ref _selectedFeedback, value); }
         }
 
-        public FeedbackRegisterWindowViewModel(IFeedbackService feedbackService)
+        public FeedbackRegisterWindowViewModel(IFeedbackService feedbackService, IWindowService windowService)
         {
             this.feedbackService = feedbackService;
+            this.windowService = windowService;
             mapper = Mapper.Instance;
 
             FeedbackChannels = typeof(FeedbackChannel).GetFields().Select(f => f.GetValue(null).ToString());

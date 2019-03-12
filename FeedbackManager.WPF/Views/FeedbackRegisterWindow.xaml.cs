@@ -27,7 +27,8 @@ namespace FeedbackManager.WPF.Views
             InitializeComponent();
 
             var feedbackService = (Application.Current as App).FeedbackService;
-            ViewModel = new FeedbackRegisterWindowViewModel(feedbackService);
+            var windowService = (Application.Current as App).WindowService;
+            ViewModel = new FeedbackRegisterWindowViewModel(feedbackService, windowService);
         }
 
         private void OnResponsibleDepartmentChanged(object sender, SelectionChangedEventArgs e)

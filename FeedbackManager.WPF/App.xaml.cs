@@ -20,10 +20,13 @@ namespace FeedbackManager.WPF
         //public string ConnectionString { get; } = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Users\weisong.teng\Desktop\Feedback Database.mdb;Persist Security Info=False;";
 
         public IFeedbackService FeedbackService;
+        public IWindowService WindowService;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             FeedbackService = new LocalFeedbackService();
+            WindowService = new WindowService();
+
             Mapper.Initialize(c => c.AddProfile<MappingProfile>());
 
             var startupWindow = new Views.FeedbackRegisterWindow();
