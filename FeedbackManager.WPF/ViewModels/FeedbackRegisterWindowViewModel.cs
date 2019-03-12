@@ -134,7 +134,7 @@ namespace FeedbackManager.WPF.ViewModels
 
         public void GoToChartsGeneratorWindow()
         {
-            windowService.ShowChartsGeneratorWindow();
+            windowService.ShowChartsGeneratorWindow(mapper.Map<IEnumerable<Feedback>>(_feedbacks));
         }
     }
 }

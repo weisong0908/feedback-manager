@@ -1,4 +1,7 @@
-﻿using System;
+﻿using FeedbackManager.WPF.Models;
+using FeedbackManager.WPF.Services;
+using FeedbackManager.WPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,19 +22,26 @@ namespace FeedbackManager.WPF.Views
     /// </summary>
     public partial class ChartsGeneratorWindow : Window
     {
-        public ChartsGeneratorWindow()
+        public ChartsGeneratorWindowViewModel ViewModel { get { return DataContext as ChartsGeneratorWindowViewModel; } set { DataContext = value; } }
+
+        public ChartsGeneratorWindow(IEnumerable<Feedback> feedbacks)
         {
+            IFeedbackService feedbackService= (Application.Current as App).FeedbackService;
+            IWindowService windowService = (Application.Current as App).WindowService;
+
             InitializeComponent();
+
+            ViewModel = new ChartsGeneratorWindowViewModel(feedbacks, feedbackService, windowService);
         }
 
         private void SetChartsDestination(object sender, RoutedEventArgs e)
         {
-
+            ViewModel.SetChartsDestinationFolder();
         }
 
         private void GenerateCharts(object sender, RoutedEventArgs e)
         {
-
+            ViewModel.GenerateCharts();
         }
     }
 }
