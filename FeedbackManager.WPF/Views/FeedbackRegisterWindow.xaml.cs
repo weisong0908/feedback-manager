@@ -54,5 +54,10 @@ namespace FeedbackManager.WPF.Views
         {
             ViewModel.SendAcknowledgementEmail();
         }
+
+        private void GenerateCharts(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

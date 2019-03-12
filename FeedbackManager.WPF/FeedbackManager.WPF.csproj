@@ -108,6 +108,9 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\FeedbackRegisterWindowViewModel.cs" />
     <Compile Include="ViewModels\FeedbackViewModel.cs" />
+    <Compile Include="Views\ChartsGeneratorWindow.xaml.cs">
+      <DependentUpon>ChartsGeneratorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FeedbackRegisterWindow.xaml.cs">
       <DependentUpon>FeedbackRegisterWindow.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ChartsGeneratorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FeedbackRegisterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
