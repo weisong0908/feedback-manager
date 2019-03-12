@@ -58,7 +58,7 @@ namespace FeedbackManager.WPF.Views
 
         private void GenerateCharts(object sender, RoutedEventArgs e)
         {
-
+            ViewModel.GoToChartsGeneratorWindow();
         }
     }
 }

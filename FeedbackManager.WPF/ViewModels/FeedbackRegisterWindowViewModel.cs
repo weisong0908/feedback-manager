@@ -131,5 +131,10 @@ namespace FeedbackManager.WPF.ViewModels
 
             EmailHelper.Send(_selectedFeedback.Email, _selectedFeedback.Title);
         }
+
+        public void GoToChartsGeneratorWindow()
+        {
+            windowService.ShowChartsGeneratorWindow();
+        }
     }
 }
