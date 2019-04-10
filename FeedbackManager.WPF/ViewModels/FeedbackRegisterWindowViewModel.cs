@@ -31,13 +31,9 @@ namespace FeedbackManager.WPF.ViewModels
             set { SetValue(ref _categories, value); }
         }
 
-        private ObservableCollection<FeedbackViewModel> _feedbacks;
-        public ObservableCollection<FeedbackViewModel> Feedbacks
-        {
-            get { return _feedbacks; }
-            set { SetValue(ref _feedbacks, value); }
-        }
-        public int UnclosedFeedbacksCount { get { return _feedbacks.Where(f => f.Progress != Progress.Closed).Count(); } }
+        public ObservableCollection<FeedbackViewModel> Feedbacks { get; set; }
+
+        public int UnclosedFeedbacksCount { get { return Feedbacks.Where(f=>f.Progress!=Progress.Closed).Count(); } }
 
         private FeedbackViewModel _selectedFeedback;
         public FeedbackViewModel SelectedFeedback
@@ -69,7 +65,7 @@ namespace FeedbackManager.WPF.ViewModels
             var feedbacks = mapper.Map<List<FeedbackViewModel>>((await feedbackService.GetAllFeedbacks()).OrderByDescending(f => f.DateReceived).ToList());
             Feedbacks = new ObservableCollection<FeedbackViewModel>(feedbacks);
 
-            SelectedFeedback = _feedbacks.First();
+            SelectedFeedback = Feedbacks.First();
         }
 
         public void UpdateCategories()
@@ -114,6 +110,8 @@ namespace FeedbackManager.WPF.ViewModels
             {
                 response = await feedbackService.UpdateFeedback(feedbackForChange);
             }
+
+            OnPropertyChanged(nameof(UnclosedFeedbacksCount));
         }
 
         public void RemoveFeedback()
@@ -122,6 +120,8 @@ namespace FeedbackManager.WPF.ViewModels
 
             feedbackService.RemoveFeedback(mapper.Map<Feedback>(_selectedFeedback));
             Feedbacks.Remove(_selectedFeedback);
+
+            OnPropertyChanged(nameof(UnclosedFeedbacksCount));
         }
 
         public void SendAcknowledgementEmail()
@@ -134,7 +134,7 @@ namespace FeedbackManager.WPF.ViewModels
 
         public void GoToChartsGeneratorWindow()
         {
-            windowService.ShowChartsGeneratorWindow(mapper.Map<IEnumerable<Feedback>>(_feedbacks));
+            windowService.ShowChartsGeneratorWindow(mapper.Map<IEnumerable<Feedback>>(Feedbacks));
         }
     }
 }
