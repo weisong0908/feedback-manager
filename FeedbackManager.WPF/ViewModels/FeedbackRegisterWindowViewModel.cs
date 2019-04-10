@@ -24,12 +24,7 @@ namespace FeedbackManager.WPF.ViewModels
         public IEnumerable<string> ContributorStatuses { get; set; }
         public IEnumerable<string> Affiliations { get; set; }
 
-        private ObservableCollection<string> _categories;
-        public ObservableCollection<string> Categories
-        {
-            get { return _categories; }
-            set { SetValue(ref _categories, value); }
-        }
+        public ObservableCollection<string> Categories { get; set; }
 
         public ObservableCollection<FeedbackViewModel> Feedbacks { get; set; }
 
@@ -77,8 +72,11 @@ namespace FeedbackManager.WPF.ViewModels
                 return;
 
             var categories = feedbackService.GetAllDepartments().Where(d => d.Name == _selectedFeedback.ResponsibleDepartment).SingleOrDefault().Categories;
-            categories.Add("");
-            Categories = new ObservableCollection<string>(categories);
+            categories.Insert(0, "");
+
+            Categories.Clear();
+            foreach (var category in categories)
+                Categories.Add(category);
         }
 
         public void AddNewFeedback()
