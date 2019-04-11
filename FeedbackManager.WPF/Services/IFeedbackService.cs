@@ -10,6 +10,7 @@ namespace FeedbackManager.WPF.Services
     public interface IFeedbackService
     {
         Task<IEnumerable<Feedback>> GetAllFeedbacks();
+        Task<int> GetFeedbackID(Feedback feedback);
         Task<Feedback> AddNewFeedback(Feedback feedback);
         Task<Feedback> UpdateFeedback(Feedback feedback);
         void RemoveFeedback(Feedback feedback);

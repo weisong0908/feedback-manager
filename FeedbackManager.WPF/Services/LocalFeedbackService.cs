@@ -65,6 +65,28 @@ namespace FeedbackManager.WPF.Services
             return feedbacks.Where(f => f.IsRemoved.ToLower() != "yes");
         }
 
+        public async Task<int> GetFeedbackID(Feedback feedback)
+        {
+            dbConnection.Open();
+            command = new OleDbCommand("SELECT Id FROM Feedbacks WHERE Date_Received=@DateReceived AND Contributor_Name=@ContributorName", dbConnection);
+
+            command.Parameters.AddWithValue("@DateReceived", feedback.DateReceived.ToShortDateString());
+            command.Parameters.AddWithValue("@ContributorName", feedback.ContributorName);
+
+            dataReader = command.ExecuteReader();
+
+            int id = 0;
+            while (await dataReader.ReadAsync())
+            {
+                id = int.Parse(dataReader["Id"].ToString());
+            }
+
+            dataReader.Close();
+            dbConnection.Close();
+
+            return id;
+        }
+
         public async Task<Feedback> AddNewFeedback(Feedback feedback)
         {
             string sql = "INSERT INTO Feedbacks " +

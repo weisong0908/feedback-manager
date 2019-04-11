@@ -93,7 +93,7 @@ namespace FeedbackManager.WPF.ViewModels
             var feedbackForChange = mapper.Map<Feedback>(_selectedFeedback);
             object response;
 
-            if (SelectedFeedback.Id == 0)
+            if (feedbackForChange.Id == 0)
             {
                 Feedbacks.Add(SelectedFeedback);
                 Feedbacks = new ObservableCollection<FeedbackViewModel>(Feedbacks.OrderByDescending(fvm => fvm.DateReceived));
@@ -102,6 +102,10 @@ namespace FeedbackManager.WPF.ViewModels
                 if (response == null)
                 {
                     Feedbacks = originalFeedbacks;
+                }
+                else
+                {
+                    SelectedFeedback.Id = await feedbackService.GetFeedbackID(response as Feedback);
                 }
             }
             else

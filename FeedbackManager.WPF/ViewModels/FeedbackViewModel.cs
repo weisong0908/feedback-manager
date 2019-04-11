@@ -23,21 +23,21 @@ namespace FeedbackManager.WPF.ViewModels
             set { SetValue(ref _dateReceived, value); }
         }
 
-        private string _channel;
+        private string _channel = string.Empty;
         public string Channel
         {
             get { return _channel; }
             set { SetValue(ref _channel, value); }
         }
 
-        private string _progress;
+        private string _progress = string.Empty;
         public string Progress
         {
             get { return _progress; }
             set { SetValue(ref _progress, value); }
         }
 
-        private string _feedbackNature;
+        private string _feedbackNature = string.Empty;
         public string FeedbackNature
         {
             get { return _feedbackNature; }
@@ -51,7 +51,7 @@ namespace FeedbackManager.WPF.ViewModels
             set { SetValue(ref _dateAcknowledged, value); }
         }
 
-        private string _responsibleDepartment;
+        private string _responsibleDepartment = string.Empty;
         public string ResponsibleDepartment
         {
             get { return _responsibleDepartment; }
@@ -72,14 +72,14 @@ namespace FeedbackManager.WPF.ViewModels
             set { SetValue(ref _studentId, value); }
         }
 
-        private string _contributorStatus;
+        private string _contributorStatus = string.Empty;
         public string ContributorStatus
         {
             get { return _contributorStatus; }
             set { SetValue(ref _contributorStatus, value); }
         }
 
-        private string _affiliation;
+        private string _affiliation = string.Empty;
         public string Affiliation
         {
             get { return _affiliation; }
