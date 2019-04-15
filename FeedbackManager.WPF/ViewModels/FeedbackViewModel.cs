@@ -162,5 +162,10 @@ namespace FeedbackManager.WPF.ViewModels
             get { return _remarks; }
             set { SetValue(ref _remarks, value); }
         }
+
+        public FeedbackViewModel()
+        {
+            _dateReceived = DateTime.Today;
+        }
     }
 }

@@ -12,5 +12,10 @@ namespace FeedbackManager.WPF.Models
         public const string Student = "Student";
         public const string Staff = "Staff";
         public const string OtherStakeholder = "Other stakeholder";
+
+        public static IEnumerable<string> ContributorStatuses
+        {
+            get { return new List<string>() { "", Student, Staff, OtherStakeholder }; }
+        }
     }
 }

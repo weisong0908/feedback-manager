@@ -43,10 +43,10 @@ namespace FeedbackManager.WPF.ViewModels
             this.windowService = windowService;
             mapper = Mapper.Instance;
 
-            FeedbackChannels = typeof(FeedbackChannel).GetFields().Select(f => f.GetValue(null).ToString());
-            Progresses = typeof(Progress).GetFields().Select(f => f.GetValue(null).ToString());
-            FeedbackNatures = typeof(FeedbackNature).GetFields().Select(f => f.GetValue(null).ToString());
-            ContributorStatuses = typeof(ContributorStatus).GetFields().Select(f => f.GetValue(null).ToString());
+            FeedbackChannels = FeedbackChannel.FeedbackChannels;
+            Progresses = Progress.Progresses;
+            FeedbackNatures = FeedbackNature.FeedbackNatures;
+            ContributorStatuses = ContributorStatus.ContributorStatuses;
             Categories = new ObservableCollection<string>();
             OnStartUp();
         }
@@ -54,9 +54,15 @@ namespace FeedbackManager.WPF.ViewModels
         private async void OnStartUp()
         {
             var departments = feedbackService.GetAllDepartments().Select(d => d.Name).ToList();
-            departments.Add("");
+            departments.Insert(0, "");
             ResponsibleDepartments = departments;
-            Affiliations = feedbackService.GetAffiliations().Concat(ResponsibleDepartments);
+
+            var affiliations = feedbackService.GetAffiliations().ToList();
+            affiliations.AddRange(departments);
+            affiliations.Remove("");
+            affiliations.Insert(0, "");
+            Affiliations = affiliations;
+
             var feedbacks = mapper.Map<List<FeedbackViewModel>>((await feedbackService.GetAllFeedbacks()).OrderByDescending(f => f.DateReceived).ToList());
             Feedbacks = new ObservableCollection<FeedbackViewModel>(feedbacks);
 

@@ -245,7 +245,6 @@ namespace FeedbackManager.WPF.Services
 
         public IEnumerable<Department> GetAllDepartments()
         {
-
             var departments = new List<Department>();
 
             departments.Add(new Department() { Name = "Academic", ShortName = "ACAD" });

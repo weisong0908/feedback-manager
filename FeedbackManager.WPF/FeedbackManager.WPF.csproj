@@ -133,7 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ContributorStatus.cs" />
-    <Compile Include="Models\FeedbackCategory.cs" />
     <Compile Include="Models\FeedbackChannel.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Feedback.cs" />

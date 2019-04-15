@@ -42,177 +42,196 @@ namespace FeedbackManager.WPF.Helpers
                 workbook = excel.Workbooks.Add();
                 chartNumber = 1;
 
-                DrawChart_FeedbackVsQuarter_per_FeedbackNature_for_CurrentYear_Bar();
+                DrawChart_FeedbackVsQuarter_per_FeedbackNature(startYear: 2015);
+                DrawChart_FeedbackVsQuarter_per_FeedbackNature(startYear: reportDate.Year);
+                DrawChart_FeedbackVsQuarter_per_FeedbackNature(startYear: 2015, isPercentage: true);
+                DrawChart_FeedbackVsQuarter_per_FeedbackNature(startYear: reportDate.Year, isPercentage: true);
 
                 foreach (var department in departments)
-                    DrawChart_FeedbackVsQuarter_per_FeedbackNature_for_CurrentYear_Bar_individualDepartment(department);
+                    DrawChart_FeedbackVsQuarter_per_FeedbackNature_individualDepartment(department, startYear: 2015);
 
                 foreach (var department in departments)
-                    DrawChart_FeedbackVsQuarter_per_FeedbackCategory_for_CurrentYear_Bar_individualDepartment(department);
+                    DrawChart_FeedbackVsQuarter_per_FeedbackNature_individualDepartment(department, startYear: reportDate.Year);
+
+                foreach (var department in departments)
+                    DrawChart_FeedbackVsQuarter_per_FeedbackNature_individualDepartment(department, startYear: 2015, isPercentage: true);
+
+                foreach (var department in departments)
+                    DrawChart_FeedbackVsQuarter_per_FeedbackNature_individualDepartment(department, startYear: reportDate.Year, isPercentage: true);
+
+                foreach (var department in departments)
+                    DrawChart_FeedbackVsQuarter_per_FeedbackCategory_individualDepartment(department, startYear: 2015);
+
+                foreach (var department in departments)
+                    DrawChart_FeedbackVsQuarter_per_FeedbackCategory_individualDepartment(department, startYear: 2015, isPercentage: true);
+
+                foreach (var department in departments)
+                    DrawChart_FeedbackVsQuarter_per_FeedbackCategory_individualDepartment(department, startYear: reportDate.Year);
+
+                foreach (var department in departments)
+                    DrawChart_FeedbackVsQuarter_per_FeedbackCategory_individualDepartment(department, startYear: reportDate.Year, isPercentage: true);
 
                 workbook.Close(SaveChanges: true, Filename: $@"{destinationFolder}\charts.xlsx");
                 excel.Quit();
             });
         }
 
-        private void DrawChart_FeedbackVsQuarter_per_FeedbackNature_for_CurrentYear_Bar()
+        private void DrawChart_FeedbackVsQuarter_per_FeedbackNature(int startYear, bool isPercentage = false)
         {
-            var chart = (Excel.Chart)workbook.Charts.Add();
-            chart.ApplyDataLabels();
-            chart.HasTitle = true;
-            chart.HasLegend = true;
-            chart.ChartType = Excel.XlChartType.xlColumnClustered;
-            chart.ChartTitle.Text = $"Feedback trend in {reportDate.Year}";
-
-            var xAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlCategory, Excel.XlAxisGroup.xlPrimary);
-            xAxis.HasTitle = true;
-            xAxis.AxisTitle.Text = "Year-quarter";
-            var yAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlValue, Excel.XlAxisGroup.xlPrimary);
-            yAxis.HasTitle = true;
-            yAxis.AxisTitle.Text = "Number of feedback";
+            Excel.Chart chart = (startYear == reportDate.Year) ?
+                InitialiseChart($"Feedback trend in {reportDate.Year}-Q{reportDateQuarter}{(isPercentage ? " (percentage)" : "")}", isPercentage) :
+                InitialiseChart($"Feedback trend since {startYear}{(isPercentage ? " (percentage)" : "")}", isPercentage);
 
             var data = new Dictionary<string, IList<Feedback>>();
 
-            for (int quarter = 1; quarter <= reportDateQuarter; quarter++)
+            for (int year = startYear; year <= reportDate.Year; year++)
             {
-                data.Add($"{reportDate.Year}-Q{quarter}", feedbacks.Where(f => f.DateReceived.Year == reportDate.Year && ((f.DateReceived.Month + 2) / 3) == quarter).ToList());
+                for (int quarter = 1; quarter <= 4; quarter++)
+                {
+                    data.Add($"{year}-Q{quarter}", feedbacks.Where(f => f.DateReceived.Year == year && ((f.DateReceived.Month + 2) / 3) == quarter).ToList());
 
-                if (quarter == reportDateQuarter)
-                    break;
+                    if (year == reportDate.Year && quarter == reportDateQuarter)
+                        break;
+                }
+            }
+
+            var feedbackNatures = FeedbackNature.FeedbackNaturesForChart;
+
+            SetChartData(chart, data, feedbackNatures, isPercentage);
+
+            ExportChart(chart);
+        }
+
+        private void DrawChart_FeedbackVsQuarter_per_FeedbackNature_individualDepartment(Department department, int startYear, bool isPercentage = false)
+        {
+            Excel.Chart chart = (startYear == reportDate.Year) ?
+                InitialiseChart($"Feedback nature in {reportDate.Year}-Q{reportDateQuarter} for {department.Name}{(isPercentage ? " (percentage)" : "")}", isPercentage) :
+                InitialiseChart($"Feedback nature trend since {startYear} for {department.Name}{(isPercentage ? " (percentage)" : "")}", isPercentage);
+
+            var data = new Dictionary<string, IList<Feedback>>();
+
+            for (int year = startYear; year <= reportDate.Year; year++)
+            {
+                for (int quarter = 1; quarter <= 4; quarter++)
+                {
+                    data.Add($"{year}-Q{quarter}", feedbacks.Where(f => f.ResponsibleDepartment == department.Name && f.DateReceived.Year == year && ((f.DateReceived.Month + 2) / 3) == quarter).ToList());
+
+                    if (year == reportDate.Year && quarter == reportDateQuarter)
+                        break;
+                }
+            }
+
+            var feedbackNatures = FeedbackNature.FeedbackNaturesForChart;
+
+            SetChartData(chart, data, feedbackNatures, isPercentage);
+
+            ExportChart(chart);
+        }
+
+        private void DrawChart_FeedbackVsQuarter_per_FeedbackCategory_individualDepartment(Department department, int startYear, bool isPercentage = false)
+        {
+            Excel.Chart chart = (startYear == reportDate.Year) ?
+                InitialiseChart($"Feedback category in {reportDate.Year}-Q{reportDateQuarter} for {department.Name}{(isPercentage ? " (percentage)" : "")}", isPercentage) :
+                InitialiseChart($"Feedback category trend since {startYear} for {department.Name}{(isPercentage ? " (percentage)" : "")}", isPercentage);
+
+            var data = new Dictionary<string, IList<Feedback>>();
+
+            for (int year = startYear; year <= reportDate.Year; year++)
+            {
+                for (int quarter = 1; quarter <= 4; quarter++)
+                {
+                    data.Add($"{year}-Q{quarter}", feedbacks.Where(f => f.ResponsibleDepartment == department.Name && f.DateReceived.Year == year && ((f.DateReceived.Month + 2) / 3) == quarter).ToList());
+
+                    if (year == reportDate.Year && quarter == reportDateQuarter)
+                        break;
+                }
             }
 
             var seriesCollection = (Excel.SeriesCollection)chart.SeriesCollection();
-            var series0 = seriesCollection.NewSeries();
-            series0.Name = "Total feedbacks";
-            series0.XValues = data.Keys.ToArray();
-            series0.Values = data.Values.Select(v => v.Count()).ToArray();
-            series0.ApplyDataLabels();
-
-            var series1 = seriesCollection.NewSeries();
-            series1.Name = "Complaints";
-            series1.XValues = data.Keys.ToArray();
-            series1.Values = data.Values.Select(v => v.Where(f => f.FeedbackNature == FeedbackNature.Complaint).Count()).ToArray();
-            series1.ApplyDataLabels();
-
-            var series2 = seriesCollection.NewSeries();
-            series2.Name = "Compliments";
-            series2.XValues = data.Keys.ToArray();
-            series2.Values = data.Values.Select(v => v.Where(f => f.FeedbackNature == FeedbackNature.Compliment).Count()).ToArray();
-            series2.ApplyDataLabels();
-
-            var series3 = seriesCollection.NewSeries();
-            series3.Name = "For information";
-            series3.XValues = data.Keys.ToArray();
-            series3.Values = data.Values.Select(v => v.Where(f => f.FeedbackNature == FeedbackNature.Information).Count()).ToArray();
-            series3.ApplyDataLabels();
-
-            chart.Export($@"{destinationFolder}\{chartNumber} - {chart.ChartTitle.Text}.png", "PNG");
-            chartNumber++;
-            chart.Delete();
-
-            ChartCreated?.Invoke(this, $"{chart.ChartTitle.Text} created");
-        }
-
-        private void DrawChart_FeedbackVsQuarter_per_FeedbackNature_for_CurrentYear_Bar_individualDepartment(Department department)
-        {
-            var chart = (Excel.Chart)workbook.Charts.Add();
-            chart.ApplyDataLabels();
-            chart.HasTitle = true;
-            chart.HasLegend = true;
-            chart.ChartType = Excel.XlChartType.xlColumnClustered;
-            chart.ChartTitle.Text = $"Feedback nature in {reportDate.Year} for {department.Name}";
-
-            var xAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlCategory, Excel.XlAxisGroup.xlPrimary);
-            xAxis.HasTitle = true;
-            xAxis.AxisTitle.Text = "Year-quarter";
-            var yAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlValue, Excel.XlAxisGroup.xlPrimary);
-            yAxis.HasTitle = true;
-            yAxis.AxisTitle.Text = "Number of feedback";
-
-            var data = new Dictionary<string, IList<Feedback>>();
-
-            for (int quarter = 1; quarter <= reportDateQuarter; quarter++)
-            {
-                data.Add($"{reportDate.Year}-Q{quarter}", feedbacks.Where(f => f.ResponsibleDepartment == department.Name && f.DateReceived.Year == reportDate.Year && ((f.DateReceived.Month + 2) / 3) == quarter).ToList());
-
-                if (quarter == reportDateQuarter)
-                    break;
-            }
-
-                var seriesCollection = (Excel.SeriesCollection)chart.SeriesCollection();
-            var series0 = seriesCollection.NewSeries();
-            series0.Name = "Total feedbacks";
-            series0.XValues = data.Keys.ToArray();
-            series0.Values = data.Values.Select(v => v.Count()).ToArray();
-            series0.ApplyDataLabels();
-
-            var series1 = seriesCollection.NewSeries();
-            series1.Name = "Complaints";
-            series1.XValues = data.Keys.ToArray();
-            series1.Values = data.Values.Select(v => v.Where(f => f.FeedbackNature == FeedbackNature.Complaint).Count()).ToArray();
-            series1.ApplyDataLabels();
-
-            var series2 = seriesCollection.NewSeries();
-            series2.Name = "Compliments";
-            series2.XValues = data.Keys.ToArray();
-            series2.Values = data.Values.Select(v => v.Where(f => f.FeedbackNature == FeedbackNature.Compliment).Count()).ToArray();
-            series2.ApplyDataLabels();
-
-            var series3 = seriesCollection.NewSeries();
-            series3.Name = "For information";
-            series3.XValues = data.Keys.ToArray();
-            series3.Values = data.Values.Select(v => v.Where(f => f.FeedbackNature == FeedbackNature.Information).Count()).ToArray();
-            series3.ApplyDataLabels();
-
-            chart.Export($@"{destinationFolder}\{chartNumber} - {chart.ChartTitle.Text}.png", "PNG");
-            chartNumber++;
-            chart.Delete();
-
-            ChartCreated?.Invoke(this, $"{chart.ChartTitle.Text} created");
-        }
-
-        private void DrawChart_FeedbackVsQuarter_per_FeedbackCategory_for_CurrentYear_Bar_individualDepartment(Department department)
-        {
-            var chart = (Excel.Chart)workbook.Charts.Add();
-            chart.ApplyDataLabels();
-            chart.HasTitle = true;
-            chart.HasLegend = true;
-            chart.ChartType = Excel.XlChartType.xlColumnClustered;
-            chart.ChartTitle.Text = $"Feedback category in {reportDate.Year} for {department.Name}";
-
-            var xAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlCategory, Excel.XlAxisGroup.xlPrimary);
-            xAxis.HasTitle = true;
-            xAxis.AxisTitle.Text = "Year-quarter";
-            var yAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlValue, Excel.XlAxisGroup.xlPrimary);
-            yAxis.HasTitle = true;
-            yAxis.AxisTitle.Text = "Number of feedback";
-
-            var data = new Dictionary<string, IList<Feedback>>();
-
-            for (int quarter = 1; quarter <= reportDateQuarter; quarter++)
-            {
-                data.Add($"{reportDate.Year}-Q{quarter}", feedbacks.Where(f => f.ResponsibleDepartment == department.Name && f.DateReceived.Year == reportDate.Year && ((f.DateReceived.Month + 2) / 3) == quarter).ToList());
-
-                if (quarter == reportDateQuarter)
-                    break;
-            }
-
-            var seriesCollection = (Excel.SeriesCollection)chart.SeriesCollection();
-
             foreach (var category in department.Categories)
             {
                 var series = seriesCollection.NewSeries();
                 series.Name = category;
                 series.XValues = data.Keys.ToArray();
-                series.Values = data.Values.Select(v => v.Where(f => f.Category == category).Count()).ToArray();
+                if (isPercentage)
+                    series.Values = data.Values.Select(v => GetRatio(v.Where(f => f.Category == category).Count(), v.Count)).ToArray();
+                else
+                    series.Values = data.Values.Select(v => v.Where(f => f.Category == category).Count()).ToArray();
                 series.ApplyDataLabels();
+                if (isPercentage)
+                    series.DataLabels().NumberFormat = "0%";
             }
 
+            ExportChart(chart);
+        }
+
+        private Excel.Chart InitialiseChart(string chartTitle, bool isPercentage)
+        {
+            var chart = (Excel.Chart)workbook.Charts.Add();
+            chart.ApplyDataLabels();
+            chart.HasTitle = true;
+            chart.HasLegend = true;
+            chart.ChartType = Excel.XlChartType.xlColumnClustered;
+            chart.ChartTitle.Text = chartTitle;
+
+            var xAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlCategory, Excel.XlAxisGroup.xlPrimary);
+            xAxis.HasTitle = true;
+            xAxis.AxisTitle.Text = "Year-quarter";
+            var yAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlValue, Excel.XlAxisGroup.xlPrimary);
+            yAxis.HasTitle = true;
+            yAxis.AxisTitle.Text = "Number of feedback";
+            if (isPercentage)
+            {
+                yAxis.TickLabels.NumberFormat = "0%";
+                yAxis.MaximumScale = 1;
+            }
+
+            return chart;
+        }
+
+        private static void SetChartData(Excel.Chart chart, Dictionary<string, IList<Feedback>> data, IEnumerable<string> feedbackNatures, bool isPercentage)
+        {
+            var seriesCollection = (Excel.SeriesCollection)chart.SeriesCollection();
+            foreach (var feedbackNature in feedbackNatures)
+            {
+                var series = seriesCollection.NewSeries();
+                series.Name = feedbackNature;
+                series.XValues = data.Keys.ToArray();
+                if (feedbackNature == FeedbackNature.TotalFeedbacks)
+                {
+                    if (isPercentage)
+                        series.Values = data.Values.Select(v => GetRatio(v.Count, v.Count)).ToArray();
+                    else
+                        series.Values = data.Values.Select(v => v.Count()).ToArray();
+                }
+                else
+                {
+                    if (isPercentage)
+                        series.Values = data.Values.Select(v => GetRatio(v.Where(f => f.FeedbackNature == feedbackNature).Count(), v.Count)).ToArray();
+                    else
+                        series.Values = data.Values.Select(v => v.Where(f => f.FeedbackNature == feedbackNature).Count()).ToArray();
+                }
+
+                series.ApplyDataLabels();
+                if (isPercentage)
+                    (series.DataLabels()).NumberFormat = "0%";
+            }
+        }
+
+        private void ExportChart(Excel.Chart chart)
+        {
             chart.Export($@"{destinationFolder}\{chartNumber} - {chart.ChartTitle.Text}.png", "PNG");
             chartNumber++;
             chart.Delete();
 
             ChartCreated?.Invoke(this, $"{chart.ChartTitle.Text} created");
+        }
+
+        private static double GetRatio(int value, int total)
+        {
+            var result = (double)value / total;
+
+            return (total == 0) ? 0 : result;
         }
     }
 }
