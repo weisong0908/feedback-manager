@@ -9,7 +9,7 @@ namespace FeedbackManager.WPF.Helpers
 {
     public static class EmailHelper
     {
-        public static void Send(string recipientAddress, string subject=null)
+        public static void Send(string recipientAddress, string subject = null)
         {
             Application outlook = new Application();
             var emailTemplate = @"S:\Quality Assurance\#QA & COMPLIANCE Dept Functions#\Feedback Management\Feedback Register\Feedback Acknowledgement Template\Curtin Singapore Feedback Acknowledgement.oft";
@@ -24,8 +24,8 @@ namespace FeedbackManager.WPF.Helpers
                     if (account.SmtpAddress.ToLower() == "feedback@curtin.edu.sg")
                         mailItem.Sender = account.CurrentUser.AddressEntry;
                 }
-                
-                if(!string.IsNullOrEmpty(subject))
+
+                if (!string.IsNullOrEmpty(subject))
                 {
                     mailItem.Subject += $" - {subject}";
                 }

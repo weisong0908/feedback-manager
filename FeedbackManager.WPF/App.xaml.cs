@@ -21,13 +21,14 @@ namespace FeedbackManager.WPF
 
         public IFeedbackService FeedbackService;
         public IWindowService WindowService;
+        public IMapper Mapper;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             FeedbackService = new LocalFeedbackService();
             WindowService = new WindowService();
 
-            Mapper.Initialize(c => c.AddProfile<MappingProfile>());
+            Mapper = new MapperConfiguration(c => c.AddProfile<MappingProfile>()).CreateMapper();
 
             var startupWindow = new Views.FeedbackRegisterWindow();
             startupWindow.Show();

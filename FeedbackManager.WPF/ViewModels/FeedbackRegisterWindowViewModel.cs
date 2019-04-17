@@ -28,7 +28,7 @@ namespace FeedbackManager.WPF.ViewModels
 
         public ObservableCollection<FeedbackViewModel> Feedbacks { get; set; }
 
-        public int UnclosedFeedbacksCount { get { return Feedbacks.Where(f=>f.Progress!=Progress.Closed).Count(); } }
+        public int UnclosedFeedbacksCount { get { return Feedbacks.Where(f => f.Progress != Progress.Closed).Count(); } }
 
         private FeedbackViewModel _selectedFeedback;
         public FeedbackViewModel SelectedFeedback
@@ -37,17 +37,18 @@ namespace FeedbackManager.WPF.ViewModels
             set { SetValue(ref _selectedFeedback, value); }
         }
 
-        public FeedbackRegisterWindowViewModel(IFeedbackService feedbackService, IWindowService windowService)
+        public FeedbackRegisterWindowViewModel(IFeedbackService feedbackService, IWindowService windowService, IMapper mapper)
         {
             this.feedbackService = feedbackService;
             this.windowService = windowService;
-            mapper = Mapper.Instance;
+            this.mapper = mapper;
 
             FeedbackChannels = FeedbackChannel.FeedbackChannels;
             Progresses = Progress.Progresses;
             FeedbackNatures = FeedbackNature.FeedbackNatures;
             ContributorStatuses = ContributorStatus.ContributorStatuses;
             Categories = new ObservableCollection<string>();
+
             OnStartUp();
         }
 
@@ -106,18 +107,12 @@ namespace FeedbackManager.WPF.ViewModels
 
                 response = await feedbackService.AddNewFeedback(feedbackForChange);
                 if (response == null)
-                {
                     Feedbacks = originalFeedbacks;
-                }
                 else
-                {
                     SelectedFeedback.Id = await feedbackService.GetFeedbackID(response as Feedback);
-                }
             }
             else
-            {
                 response = await feedbackService.UpdateFeedback(feedbackForChange);
-            }
 
             OnPropertyChanged(nameof(UnclosedFeedbacksCount));
         }
